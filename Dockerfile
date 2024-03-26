@@ -10,7 +10,10 @@ ARG BLUEMAP_VERSION=5.7
 USER root
 
 # Install dependencies
-RUN apk add --no-cache curl unzip
+RUN apk add --no-cache curl php83-pdo php83-pdo_mysql unzip
+
+# Install useful tools
+RUN apk add --no-cache bind-tools iputils vim
 
 # Download and extract BlueMap.jar to temporary directory
 RUN tmpdir=$(mktemp -d) && \
@@ -21,13 +24,13 @@ RUN tmpdir=$(mktemp -d) && \
     rm -rf "${tmpdir}"
 
 # Patch sql.php to use database credentials from environment variables
-RUN sed -i "s/\$driver   = .*/$driver   = getenv('DB_DRIVER') ?: 'mysql';/" /var/www/html/sql.php && \
-    sed -i "s/\$hostname = .*/$hostname = getenv('DB_HOST') ?: '127.0.0.1';/" /var/www/html/sql.php && \
-    sed -i "s/\$port     = .*/$port     = getenv('DB_PORT') ?: 3306;/" /var/www/html/sql.php && \
-    sed -i "s/\$username = .*/$username = getenv('DB_USER') ?: 'root';/" /var/www/html/sql.php && \
-    sed -i "s/\$password = .*/$password = getenv('DB_PASSWORD') ?: '';/" /var/www/html/sql.php && \
-    sed -i "s/\$database = .*/$database = getenv('DB_NAME') ?: 'bluemap';/" /var/www/html/sql.php && \
-    sed -i "s/\$hiresCompression = .*/$hiresCompression = getenv('HIRES_COMPRESSION') ?: 'gzip';/" /var/www/html/sql.php
+RUN sed -i "s/\$driver   = .*/\$driver   = getenv('DB_DRIVER') ?: 'mysql';/" /var/www/html/sql.php && \
+    sed -i "s/\$hostname = .*/\$hostname = getenv('DB_HOST') ?: '127.0.0.1';/" /var/www/html/sql.php && \
+    sed -i "s/\$port     = .*/\$port     = getenv('DB_PORT') ?: 3306;/" /var/www/html/sql.php && \
+    sed -i "s/\$username = .*/\$username = getenv('DB_USER') ?: 'root';/" /var/www/html/sql.php && \
+    sed -i "s/\$password = .*/\$password = getenv('DB_PASSWORD') ?: '';/" /var/www/html/sql.php && \
+    sed -i "s/\$database = .*/\$database = getenv('DB_NAME') ?: 'bluemap';/" /var/www/html/sql.php && \
+    sed -i "s/\$hiresCompression = .*/\$hiresCompression = getenv('HIRES_COMPRESSION') ?: 'gzip';/" /var/www/html/sql.php
 
 # Copy nginx configuration
 COPY config/nginx.conf /etc/nginx/nginx.conf

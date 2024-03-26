@@ -8,11 +8,12 @@ services:
     depends_on:
       - mariadb
     environment:
-      MYSQL_HOST: mariadb
-      MYSQL_PORT: '3306'
-      MYSQL_USER: bluemap
-      MYSQL_PASSWORD: thisisaverysecurepassword
-      MYSQL_DATABASE: bluemap
+      DB_DRIVER: mariadb
+      DB_HOST: mariadb
+      DB_PORT: '3306'
+      DB_USER: bluemap
+      DB_PASSWORD: thisisaverysecurepassword
+      DB_DATABASE: bluemap
     volumes:
       - ./data/settings.json:/var/www/html/settings.json
 
