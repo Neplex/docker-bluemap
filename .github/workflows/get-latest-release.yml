@@ -3,6 +3,10 @@ on:
   schedule:
     - cron: '0 5 * * *'
   workflow_dispatch:
+
+permissions:
+  contents: write
+
 jobs:
   get-version:
     runs-on: ubuntu-latest
@@ -10,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Fetch release version
         id: latest-release
         run: echo version=$(curl -sL "https://api.github.com/repos/BlueMap-Minecraft/BlueMap/releases/latest" | jq -r ".tag_name" | sed "s/^v//") >> $GITHUB_OUTPUT
@@ -24,8 +28,8 @@ jobs:
       - name: Commit latest release version
         if: steps.git-check.outputs.modified == 'true'
         run: |
-          git config --global user.name 'David Sn'
-          git config --global user.email 'divadsn@users.noreply.github.com'
+          git config --global user.name 'G.U.D. Chalmers'
+          git config --global user.email 'gud@chs.se'
           git commit -am "Bump up BlueMap version to v${{ steps.latest-release.outputs.version }}"
           git tag ${{ steps.latest-release.outputs.version }}
           git push && git push --tags

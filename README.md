@@ -1,15 +1,15 @@
 # docker-bluemap-nginx
 Customized version of trafex/php-nginx with BlueMap webapp pre-installed.
 
-[![Build and push Docker image](https://github.com/divadsn/docker-bluemap-nginx/actions/workflows/docker-build.yml/badge.svg)](https://github.com/divadsn/docker-bluemap-nginx/actions/workflows/docker-build.yml)
+[![Build and push Docker image](https://github.com/gud-chalmers/docker-bluemap-nginx/actions/workflows/docker-build.yml/badge.svg)](https://github.com/gud-chalmers/docker-bluemap-nginx/actions/workflows/docker-build.yml)
 
 ## How to use?
-You can deploy this image using Docker Compose. Here is an example of a [docker-compose.yml](https://github.com/divadsn/docker-bluemap-nginx/blob/master/docker-compose.yml) file:
+You can deploy this image using Docker Compose. Here is an example of a [docker-compose.yml](https://github.com/gud-chalmers/docker-bluemap-nginx/blob/master/docker-compose.yml) file:
 ```yaml
 version: "3.8"
 services:
   bluemap:
-    image: divadsn/bluemap-nginx:latest
+    image: ghcr.io/gud-chalmers/bluemap-nginx:latest
     restart: unless-stopped
     ports:
       - "8100:80/tcp"
@@ -49,7 +49,7 @@ docker run -d \
   -e MYSQL_PASSWORD=thisisaverysecurepassword \
   -e MYSQL_DATABASE=bluemap \
   -v ./data/settings.json:/var/www/html/settings.json \
-  divadsn/bluemap-nginx:latest
+  ghcr.io/gud-chalmers/bluemap-nginx:latest
 ```
 
 Note that in both cases, you need to create a `settings.json` file in the `./data` directory. You can also find this file in the BlueMap webroot directory.
