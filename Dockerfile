@@ -1,6 +1,6 @@
 FROM trafex/php-nginx:latest
 
-LABEL maintainer="David Sn <divad.nnamtdeis@gmail.com>"
+LABEL maintainer="G.U.D. Chalmers <gud@chs.se>"
 LABEL description="Customized version of trafex/php-nginx for BlueMap."
 
 # Set BlueMap version
