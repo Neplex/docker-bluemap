@@ -1,19 +1,16 @@
-FROM trafex/php-nginx:latest
+FROM trafex/php-nginx:3.9.0
 
-LABEL maintainer="G.U.D. Chalmers <gud@chs.se>"
-LABEL description="Customized version of trafex/php-nginx for BlueMap."
+LABEL maintainer="Nicolas H. <nicolashiot@hotmail.fr>"
+LABEL description="Bluemap webapp"
 
 # Set BlueMap version
-ARG BLUEMAP_VERSION=5.7
+ARG BLUEMAP_VERSION=5.11
 
 # Set user to root for installation
 USER root
 
 # Install dependencies
-RUN apk add --no-cache curl php83-pdo php83-pdo_mysql unzip
-
-# Install useful tools
-RUN apk add --no-cache bind-tools iputils vim
+RUN apk add --no-cache curl php84-pdo php84-pdo_mysql unzip
 
 # Download and extract BlueMap.jar to temporary directory
 RUN tmpdir=$(mktemp -d) && \
