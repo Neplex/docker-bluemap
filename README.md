@@ -6,55 +6,61 @@ Customized version of trafex/php-nginx with BlueMap webapp pre-installed.
 ## How to use?
 You can deploy this image using Docker Compose. Here is an example of a [docker-compose.yml](https://github.com/Neplex/docker-bluemap/blob/master/docker-compose.yml) file:
 ```yaml
-version: "3.8"
 services:
   bluemap:
-    image: ghcr.io/gudchalmers/bluemap-nginx:latest
-    restart: unless-stopped
-    ports:
-      - "8100:80/tcp"
-    depends_on:
-      - mariadb
+    image: ghcr.io/Neplex/docker-bluemap:latest
     environment:
-      DB_DRIVER: mariadb
-      DB_HOST: mariadb
-      DB_PORT: '3306'
-      DB_USER: bluemap
-      DB_PASSWORD: thisisaverysecurepassword
-      DB_NAME: bluemap
-    volumes:
-      - ./data/settings.json:/var/www/html/settings.json
-
-  mariadb:
-    image: mariadb:10.5
+      - DB_DRIVER=mariadb
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_DATABASE}
+    configs:
+      - source: settings.json
+        target: /var/www/html/settings.json
+    networks:
+      - traefik
     restart: unless-stopped
-    environment:
-      MYSQL_USER: bluemap
-      MYSQL_PASSWORD: thisisaverysecurepassword
-      MYSQL_INITDB_SKIP_TZINFO: '1'
-    volumes:
-      - mysql-vol:/var/lib/mysql
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.bluemap.loadBalancer.server.port=80"
+      - "traefik.http.routers.bluemap-local.entrypoints=http,https"
+      - "traefik.http.routers.bluemap-local.rule=Host(`domain.local`)"
 
-volumes:
-  mysql-vol:
+configs:
+  settings.json:
+    content: |
+      {
+        "version": "5.11",
+        "useCookies": true,
+        "defaultToFlatView": false,
+        "resolutionDefault": 1.0,
+        "minZoomDistance": 5,
+        "maxZoomDistance": 100000,
+        "hiresSliderMax": 500,
+        "hiresSliderDefault": 100,
+        "hiresSliderMin": 0,
+        "lowresSliderMax": 7000,
+        "lowresSliderDefault": 2000,
+        "lowresSliderMin": 500,
+        "mapDataRoot": "maps",
+        "liveDataRoot": "maps",
+        "maps": [
+            "smp_world",
+            "smp_world_nether",
+            "smp_world_the_end",
+            "creative_plotworld"
+        ],
+        "scripts": [],
+        "styles": []
+      }
+
+networks:
+  traefik:
+    name: traefik
+    external: true
 ```
-
-You can also deploy this image using the following command:
-```bash
-docker run -d \
-  --name bluemap \
-  -p 8100:80/tcp \
-  -e DB_DRIVER=mariadb \
-  -e DB_HOST=mariadb \
-  -e DB_PORT=3306 \
-  -e DB_USER=bluemap \
-  -e DB_PASSWORD=thisisaverysecurepassword \
-  -e DB_NAME=bluemap \
-  -v ./data/settings.json:/var/www/html/settings.json \
-  ghcr.io/gudchalmers/bluemap-nginx:latest
-```
-
-Note that in both cases, you need to create a `settings.json` file in the `./data` directory. You can also find this file in the BlueMap webroot directory.
 
 ## Environment variables
 | Variable      | Description                     | Default value |
