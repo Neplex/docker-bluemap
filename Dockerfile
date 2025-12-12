@@ -4,7 +4,7 @@ LABEL maintainer="Nicolas H. <nicolashiot@hotmail.fr>"
 LABEL description="Bluemap webapp"
 
 # Set BlueMap version
-ARG BLUEMAP_VERSION=5.14
+ARG BLUEMAP_VERSION=5.15
 
 # Set user to root for installation
 USER root
