@@ -1,14 +1,14 @@
 # docker-bluemap-nginx
 Customized version of trafex/php-nginx with BlueMap webapp pre-installed.
 
-[![Build and push Docker image](https://github.com/Neplex/docker-bluemap/actions/workflows/docker-build.yml/badge.svg)](https://github.com/Neplex/docker-bluemap/actions/workflows/docker-build.yml)
+[![Build and push Docker image](https://github.com/Arcadia-MC/docker-bluemap/actions/workflows/docker-build.yml/badge.svg)](https://github.com/Arcadia-MC/docker-bluemap/actions/workflows/docker-build.yml)
 
 ## How to use?
-You can deploy this image using Docker Compose. Here is an example of a [docker-compose.yml](https://github.com/Neplex/docker-bluemap/blob/master/docker-compose.yml) file:
+You can deploy this image using Docker Compose. Here is an example of a [docker-compose.yml](https://github.com/Arcadia-MC/docker-bluemap/blob/master/docker-compose.yml) file:
 ```yaml
 services:
   bluemap:
-    image: ghcr.io/Neplex/docker-bluemap:latest
+    image: ghcr.io/Arcadia-MC/docker-bluemap:latest
     environment:
       - DB_DRIVER=mariadb
       - DB_HOST=${DB_HOST}

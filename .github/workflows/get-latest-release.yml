@@ -28,8 +28,8 @@ jobs:
       - name: Commit latest release version
         if: steps.git-check.outputs.modified == 'true'
         run: |
-          git config --global user.name 'G.U.D. Chalmers'
-          git config --global user.email 'gud@chs.se'
+          git config --global user.name 'Nicolas HIOT'
+          git config --global user.email 'nicolashiot@hotmail.fr'
           git commit -am "Bump up BlueMap version to v${{ steps.latest-release.outputs.version }}"
           git tag ${{ steps.latest-release.outputs.version }}
           git push && git push --tags
